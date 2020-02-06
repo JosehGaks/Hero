@@ -1,5 +1,7 @@
 import DAO.Sql2oHeroDao;
+import DAO.Sql2oSquadDao;
 import models.Hero;
+import models.Squad;
 import org.sql2o.Sql2o;
 import spark.ModelAndView;
 import spark.template.handlebars.HandlebarsTemplateEngine;
@@ -17,10 +19,13 @@ public class App {
         String connectionString = "jdbc:h2:mem:testing;INIT=RUNSCRIPT from 'classpath:db/create.sql'";
         Sql2o sql2o = new Sql2o(connectionString, "", "");
         Sql2oHeroDao heroDao = new Sql2oHeroDao(sql2o);
+        Sql2oSquadDao squadDao = new Sql2oSquadDao(sql2o);
 
      //get:show all heroes in all squads and show all squads
         get("/",(request, response) -> {
             Map<String ,Object> model = new HashMap<>();
+            List<Squad> allSquads = squadDao.getAll();
+            model.put("squads",allSquads);
             List<Hero> heroes = heroDao.getAll();
             model.put("heroes",heroes);
             return new ModelAndView(model,"index.hbs");
@@ -28,10 +33,25 @@ public class App {
 
 
         //get:show a form to create new squad
-        // /squad/new
+        // /squads/new
+        get("/squads/new",(request, response) -> {
+            Map<String ,Object> model = new HashMap<>();
+            List<Squad> allSquads = squadDao.getAll();
+            model.put("squads",allSquads);
+            return new ModelAndView(model,"squad-form.hbs");
+        },new HandlebarsTemplateEngine());
 
         //post:process a form to create a new squad
         // /squad
+        post("/squads",(request, response) -> {
+            Map<String ,Object> model = new HashMap<>();
+            String name = request.queryParams("name");
+            Squad newSquad = new Squad(name);
+            squadDao.add(newSquad);
+
+            response.redirect("/");
+            return null;
+        },new HandlebarsTemplateEngine());
 
         //get:delete all squads and all heroes
         //  /squad/delete
@@ -46,6 +66,16 @@ public class App {
 
         //get specific squad (and heroes it contains)
         // /squads/:squad_id
+        get("/squads/:id",(request, response) -> {
+            Map<String, Object> model = new HashMap<>();
+            int idOfSquadToFind = Integer.parseInt(request.params("id"));
+            Squad foundSquad = squadDao.findById(idOfSquadToFind);
+            model.put("squad",foundSquad);
+            List<Hero> allHeroesBySquad = squadDao.getAllHeroesBySquad(idOfSquadToFind);
+            model.put("heroes",allHeroesBySquad);
+            model.put("squads",squadDao.getAll());
+            return new ModelAndView(model,"squad-detail.hbs");
+        },new HandlebarsTemplateEngine());
 
         //get: show a form to update a squad
         // /squads/:id/edit

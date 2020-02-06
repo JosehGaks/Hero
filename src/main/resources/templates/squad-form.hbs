@@ -1,0 +1,11 @@
+{{#partial content}}
+    {{#if editSquad}}
+        <h1>Edit this squad</h1>
+        <form action="/squads/{{squad.id}}" method="post">
+            <label for="name">Give a name</label>
+            <input id="newSquadName" name="newSquadName" type="text" value="{{squad.name}}">
+            <button type="submit">Go!</button>
+        </form>
+    {{/if}}
+{{/partial}}
+{{> layot.hbs}}
