@@ -86,7 +86,19 @@ public class App {
         },new HandlebarsTemplateEngine());
 
         //show an individual hero that is nested in squad
-        get();
+        get("/squads/:squad_id/heroes/:hero_id",(request, response) -> {
+            Map<String, Object> model = new HashMap<>();
+            int idOfHeroToFind = Integer.parseInt(request.params("hero_id"));
+            Hero foundHero = heroDao.findById(idOfHeroToFind);
+            model.put("hero",foundHero);
+            return new ModelAndView(model,"hero-detail.hbs")
+        },new HandlebarsTemplateEngine());
+
+        //get: show a form to update task
+        get("/hero/:id/edit",(request, response) -> {
+            Map<String, Object> model = new HashMap<>();
+
+        });
 
 
 
