@@ -1,34 +1,15 @@
+
 {{#partial "content"}}
-    <div class="container">
-        <p>create new Hero</p>
-        <form action="/hero/new" method="post">
-            <label for="hero">name</label>
-            <input id="details" name="details" type="text">
 
-            <label for="age">age</label>
-            <input id="details" name="details" type="text">
+    <h1> Heroes</h1>
 
-            <label for="superpower">super power</label>
-            <input id="details" name="details" type="text">
-
-            <label for="weakness">weakness</label>
-            <input id="details" name="details" type="text">
-
-            <button type="submit" class="btn btn-default">Add Hero</button>
-        </form>
-    </div>
-    <div class="container">
     {{#if heroes}}
-        {{#each heroes}}
-            {{heros}}
-            <button type="button" class="btn btn-success">add to squad</button>
-            <button type="button" class="btn btn-danger">remove from squad</button>
+        {{#each heroes }}
+            <p>{{ name }} <a href="/tasks/{{id}}">read more...</a></p>
         {{/each}}
     {{else}}
-        <p>No heroes</p>
+        <p>No Heroes!</p>
     {{/if}}
-
-    </div>
 {{/partial}}
 
 {{> layout.hbs}}
