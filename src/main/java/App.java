@@ -79,6 +79,14 @@ public class App {
 
         //get: show a form to update a squad
         // /squads/:id/edit
+        get("/squads/:id/edit", (request, response) -> {
+            Map<String, Object> model = new HashMap<>();
+            model.put("editSquad", true);
+            Squad squad = squadDao.findById(Integer.parseInt(request.params("id")));
+            model.put("squad",squad);
+            model.put("squads",squadDao.getAll());
+            return new ModelAndView(model,"squad-form.hbs");
+        },new HandlebarsTemplateEngine());
 
         //post : process a form to update a squad
         // /squads/:id
