@@ -74,10 +74,10 @@ public class App {
         //hero:process new hero form
         post("/heroes",(request, response) -> {
             Map<String, Object> model = new HashMap<>();
-            String name = req.queryParams("name");
-            int age = Integer.parseInt(req.queryParams("age"));
-            String specialPower = req.queryParams("specialPowers");
-            String weakness = req.queryParams("weakness");
+            String name = request.queryParams("name");
+            int age = Integer.parseInt(request.queryParams("age"));
+            String specialPower = request.queryParams("specialPowers");
+            String weakness = request.queryParams("weakness");
 
             Hero newHero = new Hero(name,age,specialPower,weakness,1);
             heroDao.add(newHero);
@@ -91,96 +91,33 @@ public class App {
             int idOfHeroToFind = Integer.parseInt(request.params("hero_id"));
             Hero foundHero = heroDao.findById(idOfHeroToFind);
             model.put("hero",foundHero);
-            return new ModelAndView(model,"hero-detail.hbs")
+            return new ModelAndView(model,"hero-detail.hbs");
         },new HandlebarsTemplateEngine());
 
         //get: show a form to update task
         get("/hero/:id/edit",(request, response) -> {
             Map<String, Object> model = new HashMap<>();
-
-        });
-
-
-
-
-
-
-
-        //get: delete all heroes
-        get("/heroes/delete", (req, res) -> {
-            Map<String, Object> model = new HashMap<>();
-            heroDao.clearAllHeroes(); //change
-            res.redirect("/");
-            return null;
-        }, new HandlebarsTemplateEngine());
-
-        //get: delete an individual hero
-        get("/heroes/:id/delete", (req, res) -> {
-            Map<String, Object> model = new HashMap<>();
-            int idOfHeroToDelete = Integer.parseInt(req.params("id"));
-            heroDao.deleteById(idOfHeroToDelete);
-            res.redirect("/");
-            return null;
-        }, new HandlebarsTemplateEngine());
-
-        //get: show all heroes
-        get("/", (req, res) -> {
-            Map<String, Object> model = new HashMap<>();
-            List<Hero> heroes = heroDao.getAll();
-            model.put("heroes", heroes);
-            return new ModelAndView(model, "index.hbs");
-        }, new HandlebarsTemplateEngine());
-
-        //get: show new hero form
-        get("/heroes/new", (req, res) -> {
-            Map<String, Object> model = new HashMap<>();
-            return new ModelAndView(model, "hero-form.hbs");
-        }, new HandlebarsTemplateEngine());
-
-        //hero: process new hero form
-        post("/heroes", (req, res) -> { //URL to make new hero on POST route
-            Map<String, Object> model = new HashMap<>();
-            String name = req.queryParams("name");
-            int age = Integer.parseInt(req.queryParams("age"));
-            String specialPower = req.queryParams("specialPowers");
-            String weakness = req.queryParams("weakness");
-
-            Hero newHero = new Hero(name,age,specialPower,weakness); //change
-            heroDao.add(newHero);
-            res.redirect("/");
-            return null;
-        }, new HandlebarsTemplateEngine());
-
-        //get: show an individual hero
-        get("/heroes/:id", (req, res) -> {
-            Map<String, Object> model = new HashMap<>();
-            int idOfHeroToFind = Integer.parseInt(req.params("id"));
-            Hero foundHero = heroDao.findById(idOfHeroToFind); //change
-            model.put("hero", foundHero);
-            return new ModelAndView(model, "hero-detail.hbs");
-        }, new HandlebarsTemplateEngine());
-
-        //get: show a form to update a hero
-        get("/heroes/:id/update", (req, res) -> {
-            Map<String, Object> model = new HashMap<>();
-            int idOfHeroToEdit = Integer.parseInt(req.params("id"));
+            int idOfHeroToEdit = Integer.parseInt(request.params("id"));
             Hero editHero = heroDao.findById(idOfHeroToEdit);
-            model.put("editHero", editHero);
-            return new ModelAndView(model, "hero-form.hbs");
-        }, new HandlebarsTemplateEngine());
+            model.put("editHero",editHero);
+            return  new ModelAndView(model,"hero-form.hbs");
+        },new HandlebarsTemplateEngine());
 
-        //hero: process a form to update a hero
-        post("/heroes/:id", (req, res) -> { //URL to update hero on POST route
+
+        //hero: process form to update a hero
+        post("/heroes/:id",(request, response) -> {
             Map<String, Object> model = new HashMap<>();
-            String name = req.queryParams("name");
-            int age = Integer.parseInt(req.queryParams("age"));
-            String specialPower = req.queryParams("specialPowers");
-            String weakness = req.queryParams("weakness");
-            int idOfHeroToEdit = Integer.parseInt(req.params("id"));
-            heroDao.update(idOfHeroToEdit,name,age,specialPower,weakness);
-            res.redirect("/");
+            String name = request.queryParams("name");
+            int age = Integer.parseInt(request.queryParams("age"));
+            String specialPower = request.queryParams("specialPowers");
+            String weakness = request.queryParams("weakness");
+            int idOfHeroToEdit = Integer.parseInt(request.params("id"));
+            heroDao.update(idOfHeroToEdit,name,age,specialPower,weakness,1);
+
+            response.redirect("/");
             return null;
-        }, new HandlebarsTemplateEngine());
+        },new HandlebarsTemplateEngine());
+
 
     }
 }
