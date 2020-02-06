@@ -5,7 +5,8 @@
 
     {{#if heroes}}
         {{#each heroes }}
-            <p>{{ name }} <a href="/tasks/{{id}}">read more...</a></p>
+            <p>current hero</p>
+            <p>{{ name }} <a href="/heroes/{{id}}">read more...</a></p>
         {{/each}}
     {{else}}
         <p>No Heroes!</p>

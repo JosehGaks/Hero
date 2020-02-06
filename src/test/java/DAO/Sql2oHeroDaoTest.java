@@ -1,12 +1,11 @@
 package DAO;
 
-import DAO.Sql2oHeroDao;
 import models.Hero;
 import org.sql2o.*;
 import org.junit.*;
 import static org.junit.Assert.*;
 
-public class Sql2oTaskDaoTest {
+class Sql2oTaskDaoTest {
     private Sql2oHeroDao heroDao; //ignore me for now. We'll create this soon.
     private Connection conn; //must be sql2o class conn
 
@@ -37,6 +36,8 @@ public class Sql2oTaskDaoTest {
         Hero foundHero = heroDao.findById(hero.getId());
         assertEquals(hero,foundHero);
     }
+    @Test
+
 
     public Hero setupNewHero(){
         return new Hero("superman",20,"flying","kryptonium","https://www.washingtonpost.com/resizer/vGQG3JCfQdXsdeVtxnxAkpugvpA=/270x0/arc-anglerfish-washpost-prod-washpost.s3.amazonaws.com/public/RSJU5JUWMQ34PJTSQXM5IPKPKU.jpg");

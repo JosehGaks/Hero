@@ -8,20 +8,21 @@ public class Hero {
 
     private String description;
     private String name;
-    private String imageurl;
     private int age;
     private String specialPowers;
     private String weakness;
     private int id;
+    private int squadId;
 
 
 
-    public Hero(String name, int age, String specialPowers, String weakness, String imageurl){
+    public Hero(String name, int age, String specialPowers, String weakness,int squadId){
         this.name = name;
         this.age = age;
         this.specialPowers = specialPowers;
         this.weakness = weakness;
-        this.imageurl =imageurl;
+        this.squadId = squadId;
+
     }
 
     @Override
@@ -31,16 +32,16 @@ public class Hero {
         Hero hero = (Hero) o;
         return age == hero.age &&
                 id == hero.id &&
+                squadId == hero.squadId &&
                 description.equals(hero.description) &&
                 name.equals(hero.name) &&
-                imageurl.equals(hero.imageurl) &&
                 specialPowers.equals(hero.specialPowers) &&
                 weakness.equals(hero.weakness);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(description, name, imageurl, age, specialPowers, weakness, id);
+        return Objects.hash(description, name, age, specialPowers, weakness, id, squadId);
     }
 
     public void setDescription(String description) {
@@ -73,13 +74,7 @@ public class Hero {
 
         return weakness;
     }
-    public String getImageurl() {
-        return imageurl;
-    }
 
-    public void setImageurl(String imageurl) {
-        this.imageurl = imageurl;
-    }
     public int getId() {
 
         return id;
@@ -111,7 +106,15 @@ public class Hero {
 
     }
 
-    public void update (String name,int age,String specialPowers,String weakness){
+    public int getSquadId() {
+        return squadId;
+    }
+
+    public void setSquadId(int squadId) {
+        this.squadId = squadId;
+    }
+
+    public void update (String name, int age, String specialPowers, String weakness){
         this.name = name;
         this.age = age;
         this.specialPowers = specialPowers;
