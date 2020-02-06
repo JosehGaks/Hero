@@ -72,8 +72,21 @@ public class App {
         },new HandlebarsTemplateEngine());
 
         //hero:process new hero form
+        post("/heroes",(request, response) -> {
+            Map<String, Object> model = new HashMap<>();
+            String name = req.queryParams("name");
+            int age = Integer.parseInt(req.queryParams("age"));
+            String specialPower = req.queryParams("specialPowers");
+            String weakness = req.queryParams("weakness");
 
+            Hero newHero = new Hero(name,age,specialPower,weakness,1);
+            heroDao.add(newHero);
+            response.redirect("/");
+            return null;
+        },new HandlebarsTemplateEngine());
 
+        //show an individual hero that is nested in squad
+        get();
 
 
 
