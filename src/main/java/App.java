@@ -32,7 +32,6 @@ public class App {
 
 
         //get:show a form to create new squad
-        // /squads/new
         get("/squads/new",(request, response) -> {
             Map<String ,Object> model = new HashMap<>();
             List<Squad> squads = squadDao.getAll();
@@ -41,7 +40,6 @@ public class App {
         },new HandlebarsTemplateEngine());
 
         //post:process a form to create a new squad
-        // /squad
         post("/squads",(request, response) -> {
             Map<String ,Object> model = new HashMap<>();
             String name = request.queryParams("name");
