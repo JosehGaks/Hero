@@ -90,6 +90,14 @@ public class App {
 
         //post : process a form to update a squad
         // /squads/:id
+        post("/squads/:id",(request, response) -> {
+            Map<String, Object> model = new HashMap<>();
+            int idOfSquadToEdit = Integer.parseInt(request.params("id"));
+            String newName = request.queryParams("newSquadName");
+            squadDao.update(idOfSquadToEdit, newName);
+            response.redirect("/");
+            return null;
+        },new HandlebarsTemplateEngine());
 
         //get: delete a squad and heroes iit contains
         // /squads:id/delete
@@ -132,12 +140,14 @@ public class App {
             return new ModelAndView(model,"hero-detail.hbs");
         },new HandlebarsTemplateEngine());
 
-        //get: show a form to update task
-        get("/hero/:id/edit",(request, response) -> {
+        //get: show a form to update a hero
+        get("/heroes/:id/edit",(request, response) -> {
             Map<String, Object> model = new HashMap<>();
-            int idOfHeroToEdit = Integer.parseInt(request.params("id"));
-            Hero editHero = heroDao.findById(idOfHeroToEdit);
-            model.put("editHero",editHero);
+            List<Squad> allSquads = squadDao.getAll();
+            model.put("squads",allSquads);
+            Hero hero =  heroDao.findById(Integer.parseInt(request.params("id")));
+            model.put("hero",hero);
+            model.put("editHero",true);
             return  new ModelAndView(model,"hero-form.hbs");
         },new HandlebarsTemplateEngine());
 
@@ -145,12 +155,14 @@ public class App {
         //hero: process form to update a hero
         post("/heroes/:id",(request, response) -> {
             Map<String, Object> model = new HashMap<>();
+            int idOfHeroToEdit = Integer.parseInt(request.params("id"));
+
             String name = request.queryParams("name");
             int age = Integer.parseInt(request.queryParams("age"));
             String specialPower = request.queryParams("specialPowers");
             String weakness = request.queryParams("weakness");
-            int idOfHeroToEdit = Integer.parseInt(request.params("id"));
-            heroDao.update(idOfHeroToEdit,name,age,specialPower,weakness,1);
+            int newSquadId = Integer.parseInt(request.queryParams("squadId"));
+            heroDao.update(idOfHeroToEdit,name,age,specialPower,weakness,newSquadId);
 
             response.redirect("/");
             return null;
