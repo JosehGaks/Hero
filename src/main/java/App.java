@@ -90,7 +90,6 @@ public class App {
         },new HandlebarsTemplateEngine());
 
         //post : process a form to update a squad
-        // /squads/:id
         post("/squads/:id",(request, response) -> {
             Map<String, Object> model = new HashMap<>();
             int idOfSquadToEdit = Integer.parseInt(request.params("id"));
