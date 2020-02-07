@@ -55,6 +55,13 @@ public class App {
 
         //get:delete all squads and all heroes
         //  /squad/delete
+        get("/squads/delete",(request, response) -> {
+            Map<String, Object> model = new HashMap<>();
+            squadDao.clearAllSquads();
+            heroDao.clearAllHeroes();
+            response.redirect("/");
+            return null;
+        },new HandlebarsTemplateEngine());
 
         //get delete all heroes
         get("/heroes/delete",(request, response) -> {

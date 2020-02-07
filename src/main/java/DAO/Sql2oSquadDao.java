@@ -75,7 +75,7 @@ public class Sql2oSquadDao implements SquadDao{
     }
 
     @Override
-    public void clearAllCategories() {
+    public void clearAllSquads() {
         String sql = "DELETE from squads";
         try(Connection con = sql2o.open()){
             con.createQuery(sql)
