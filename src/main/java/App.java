@@ -68,7 +68,6 @@ public class App {
         },new HandlebarsTemplateEngine());
 
         //get specific squad (and heroes it contains)
-        // /squads/:squad_id
         get("/squads/:id",(request, response) -> {
             Map<String, Object> model = new HashMap<>();
             int idOfSquadToFind = Integer.parseInt(request.params("id"));
@@ -81,7 +80,6 @@ public class App {
         },new HandlebarsTemplateEngine());
 
         //get: show a form to update a squad
-        // /squads/:id/edit
         get("/squads/:id/edit", (request, response) -> {
             Map<String, Object> model = new HashMap<>();
             model.put("editSquad", true);
