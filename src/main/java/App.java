@@ -51,7 +51,6 @@ public class App {
         },new HandlebarsTemplateEngine());
 
         //get:delete all squads and all heroes
-        //  /squad/delete
         get("/squads/delete",(request, response) -> {
             Map<String, Object> model = new HashMap<>();
             squadDao.clearAllSquads();
