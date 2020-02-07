@@ -43,7 +43,8 @@ public class Sql2oSquadDao implements SquadDao{
     @Override
     public Squad findById(int id) {
        try (Connection con = sql2o.open()){
-           return con.createQuery("SELECT * FROM squads")
+           return con.createQuery("SELECT * FROM squads WHERE id = :id")
+                   .addParameter("id",id)
                    .executeAndFetchFirst(Squad.class);
        }
     }
@@ -67,6 +68,7 @@ public class Sql2oSquadDao implements SquadDao{
         String sql = "DELETE from squads WHERE id=:id";
         try(Connection con = sql2o.open()){
             con.createQuery(sql)
+                    .addParameter("id",id)
                     .executeUpdate();
         }
         catch (Sql2oException ex){
@@ -90,7 +92,7 @@ public class Sql2oSquadDao implements SquadDao{
 
     public List<Hero> getAllHeroesBySquad(int squadId) {
         try(Connection con = sql2o.open()){
-            return con.createQuery("SELECT * FROM heroes WHERE squadId =:SquadId")
+            return con.createQuery("SELECT * FROM heroes WHERE squadId = :squadId")
                     .addParameter("squadId",squadId)
                     .executeAndFetch(Hero.class);
         }

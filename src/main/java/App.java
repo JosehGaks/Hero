@@ -36,8 +36,8 @@ public class App {
         // /squads/new
         get("/squads/new",(request, response) -> {
             Map<String ,Object> model = new HashMap<>();
-            List<Squad> allSquads = squadDao.getAll();
-            model.put("squads",allSquads);
+            List<Squad> squads = squadDao.getAll();
+            model.put("squads",squads);
             return new ModelAndView(model,"squad-form.hbs");
         },new HandlebarsTemplateEngine());
 
@@ -109,8 +109,8 @@ public class App {
         //get: delete a squad and heroes iit contains
         // /squads:id/delete
 
-        //delete an individual squad
-        get("/squads/:squad_id/heros/:hero_id/delete",(request, response) -> {
+        //delete an individual hero
+        get("/squads/:squad_id/heroes/:hero_id/delete",(request, response) -> {
             Map<String, Object> model = new HashMap<>();
             int idOfHeroToDelete = Integer.parseInt(request.params("hero_id"));
             heroDao.deleteById(idOfHeroToDelete);
@@ -121,19 +121,25 @@ public class App {
         //get: show new hero form
         get("/heroes/new",(request, response) -> {
             Map<String, Object> model = new HashMap<>();
+            List<Squad> squads= squadDao.getAll();
+            model.put("squads",squads);
             return new ModelAndView(model ,"hero-form.hbs");
         },new HandlebarsTemplateEngine());
 
         //hero:process new hero form
         post("/heroes",(request, response) -> {
             Map<String, Object> model = new HashMap<>();
+            List<Squad> allSquads = squadDao.getAll();
+            model.put("squads",allSquads);
             String name = request.queryParams("name");
             int age = Integer.parseInt(request.queryParams("age"));
             String specialPower = request.queryParams("specialPowers");
             String weakness = request.queryParams("weakness");
+            int squadId = Integer.parseInt(request.queryParams("squadId"));
 
-            Hero newHero = new Hero(name,age,specialPower,weakness,1);
+            Hero newHero = new Hero(name,age,specialPower,weakness,squadId);
             heroDao.add(newHero);
+
             response.redirect("/");
             return null;
         },new HandlebarsTemplateEngine());
@@ -143,8 +149,12 @@ public class App {
             Map<String, Object> model = new HashMap<>();
             int idOfHeroToFind = Integer.parseInt(request.params("hero_id"));
             Hero foundHero = heroDao.findById(idOfHeroToFind);
+            int idOfSquadToFind = Integer.parseInt(request.params("squad_id"));
+            Squad foundSquad = squadDao.findById(idOfSquadToFind);
+            model.put("squad",foundSquad);
             model.put("hero",foundHero);
-            return new ModelAndView(model,"hero-detail.hbs");
+            model.put("squads",squadDao.getAll());
+            return new ModelAndView(model,"hero-details.hbs");
         },new HandlebarsTemplateEngine());
 
         //get: show a form to update a hero

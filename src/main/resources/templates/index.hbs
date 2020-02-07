@@ -4,9 +4,32 @@
     <h1> Heroes</h1>
 
     {{#if heroes}}
-        {{#each heroes }}
-            <p>current hero</p>
-            <p>{{ name }} <a href="/squads/{{squadId}}/heroes/{{id}}">{{name}}</a></p>
+
+
+
+
+
+            {{#each heroes }}
+                <div class="card" style="width: 18rem;">
+                    <img class="card-img-top" src="https://huangfei.info/wp-content/uploads/2019/11/cartoon-hero-coloring-pages-batman-super-hero-cartoon-coloring-pages-cartoon-coloring-pages-hero-.jpg" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ name }} </h5>
+                        <label for="squadId">add to squad: </label>
+                        <select name="squadId" id="squadId">
+                            {{#each squads}}
+                                <option value="{{id}}">
+                                    {{name}}
+                                </option>
+                            {{/each}}
+
+                        </select>
+                        <p><a href="/squads/{{squadId}}/heroes/{{id}}">{{name}}</a></p>
+                        <a href="#" class="btn btn-primary">Button</a>
+                    </div>
+                </div>
+                <br>
+                <hr>
+
         {{/each}}
     {{else}}
         <p>No Heroes!</p>

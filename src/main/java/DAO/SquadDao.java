@@ -14,10 +14,10 @@ public interface SquadDao {
     //CREATE
     void add (Squad squad);
 
-    List<Hero> getAllHeroesBySquad(int squadId);
+
     //READ
     Squad findById(int id);
-
+    List<Hero> getAllHeroesBySquad(int squadId);
     //UPDATE
     void update(int id, String name);
 
