@@ -8,7 +8,8 @@ Allows one to recruit a well-balanced team of superheroes.
 ``Java``
   ``sql``
   ``handlebars``
-  
+ # codebeat
+ [![codebeat badge](https://codebeat.co/badges/aec72c2a-3b01-4b7a-9c4f-e630c9680fb3)](https://codebeat.co/projects/github-com-josehgaks-hero-new-feature)
 
 Copyright 2019 Joseph Gakunga
 
